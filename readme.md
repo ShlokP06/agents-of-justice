@@ -1,98 +1,47 @@
-# ⚖️ Agent of Justice
+# Agent of Justice
 
-**Agent of Justice** is a fully autonomous courtroom simulation where five role-based agents—**Judge**, **Prosecutor**, **Defense Lawyer**, **Plaintiff**, and **Defendant**—engage in a structured legal trial. The system simulates realistic court proceedings using LLM prompts and state-passed context logic across the entire flow of a trial.
+An autonomous courtroom simulation where five role-based LLM agents — Judge,
+Prosecutor, Defense Lawyer, Plaintiff, and Defendant — run through a
+structured legal trial with shared, evolving context.
 
----
+## How it works
 
-## 📁 Repository Structure
+Each agent is a lightweight class wrapping Hugging Face's `InferenceClient`
+(no orchestration framework like CrewAI — just custom Python classes and
+step-wise context passing). The trial runs in four stages:
+
+1. **Opening statements** — both lawyers introduce the case.
+2. **Arguments & cross-examination** — lawyers question the plaintiff and
+   defendant.
+3. **Closing statements** — lawyers summarize their positions.
+4. **Verdict** — the judge rules, conditioned on the full trial transcript.
+
+## Structure
 
 ```
-agent-of-justice/
-│
-├── courfin.py                  # Core simulation script
-├── courtfin.ipynb              # Interactive demo (same logic)
-├── Agent_of_Justice.pdf        # Project documentation
-├── data.csv                    # Sample inputs and outputs
-├── screenshots/                # Visuals of simulation
-└── README.md                   # This file
+courtfin.py         # Core simulation script
+CourtFin.ipynb       # Interactive notebook version
+CourtSim.ipynb       # Alternate simulation notebook
+Infere.ipynb         # Inference experimentation
+cases.csv            # Sample case inputs
+output3.csv          # Sample run outputs
+screenshots/          # Simulation run screenshots
 ```
 
----
-
-## ⚙️ How It Works
-
-The simulation follows four well-defined stages:
-
-1. **Opening Statements** – Both lawyers introduce the case.
-2. **Arguments & Cross-Examination** – Lawyers ask questions to both Plaintiff and Defendant.
-3. **Closing Statements** – Lawyers summarize their arguments.
-4. **Final Verdict** – Judge delivers a verdict based on prior context.
-
-Each agent is an instance of a simple class that uses the `InferenceClient` to call a language model. No external orchestration or framework like CrewAI is used—just custom Python classes and step-wise logic to simulate the flow of trial with memory.
-
----
-
-## 📦 Setup
-
-### 1. Clone this repo
+## Running it
 
 ```bash
-git clone https://github.com/your-username/agent-of-justice.git
-cd agent-of-justice
+git clone https://github.com/ShlokP06/agents-of-justice.git
+cd agents-of-justice
+pip install huggingface_hub
+export HF_TOKEN=your_hf_token   # Windows: set HF_TOKEN=your_hf_token
+python courtfin.py
 ```
 
-### 2. Install dependencies
+Or open `CourtFin.ipynb` to run the simulation interactively, stage by
+stage.
 
-```bash
-pip install inference
-```
+## Notes
 
-### 3. Set up API Key
-
-Create a `.env` file:
-
-```
-INFERENCE_API_KEY=your_key_here
-```
-
----
-
-## 🚀 Running the Simulation
-
-### Command Line
-
-```bash
-python courfin.py
-```
-
-### Jupyter Notebook
-
-Open and run `courtfin.ipynb` to interact with the system in stages.
-
----
-
-## 🧠 Output Structure
-
-Example output flow:
-
-```
-[Opening - Prosecutor]: The facts are clear...
-[Defense]: The contract was vague...
-[Judge Verdict]: The court rules in favor of the Plaintiff.
-```
-
----
-
-## 🧩 Customization
-
-- Swap in other LLMs via `InferenceClient`
-- Change prompt texts for new case contexts
-- Expand with memory modules or external RAG
-
----
-
-## 📌 Notes
-
-- This is a simulation. It does not provide legal advice.
-- Screenshots of actual runs are stored in the `screenshots/` folder.
----
+This is a simulation for exploring multi-agent LLM interaction — it does
+not provide legal advice.
