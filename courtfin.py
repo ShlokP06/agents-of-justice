@@ -16,7 +16,8 @@ from huggingface_hub import InferenceClient
 import json
 import re
 
-os.environ["HF_TOKEN"] = "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"
+if "HF_TOKEN" not in os.environ:
+    raise RuntimeError("Set the HF_TOKEN environment variable before running.")
 
 def trim(text):
     last_full_stop_index = text.rfind('.')
